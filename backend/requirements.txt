@@ -3,3 +3,6 @@ flask-smorest
 flask-cors
 marshmallow
 python-dotenv
+flask-sqlalchemy
+flask-migrate
+psycopg2-binary

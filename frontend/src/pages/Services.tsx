@@ -28,13 +28,14 @@ export default function Services() {
     },
     {
       icon: <BookOpen className="w-12 h-12" />,
-      title: "Cursos de BTC",
-      description: "Cursos completos y certificados sobre Bitcoin y tecnología blockchain. Desde principiante hasta avanzado.",
+      title: "Capacitaciones sobre Bitcoin y Minería",
+      description: "Tenemos capacitacinoes y formaciones GRATUITAS sobre esta Tecnología Disruptiva. Gana conocimiento sobre Bitcoin y la Minería, se parte del 6% de la población mundial que entiende Bitcoin.",
       features: [
-        "Clases en vivo y grabadas",
-        "Material descargable",
-        "Certificación oficial",
-        "Soporte continuo"
+        "Capacitaciones y formaciones con profesionales en la minería de Bitcoin.",
+        "Videos en YouTube para seguir aprendiendo.",
+        "Eventos Elites por todo el mundo para estar al día sobre Bitcoin (Asia, Europa, LATAM).",
+        "Cada 14 de Abril tenemos el evento de Gala desde Dubai y todos nuestros socios nos pueden acompañar.",
+        "Siempre cuentas con equipos en varios idiomas para darte soporte cuando hay dudas."
       ]
     },
     {

@@ -1,6 +1,13 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Target, Eye, Heart, Users } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from '../components/ui/carousel';
+
+const teamMembers = Array.from({ length: 15 }, (_, index) => ({
+  id: index + 1,
+  name: `Nombre Falso ${String(index + 1).padStart(2, '0')}`,
+  role: 'Cargo Placeholder',
+}));
 
 export default function About() {
   return (
@@ -35,8 +42,8 @@ export default function About() {
       <StorySection
         icon={<Users className="w-16 h-16" />}
         title="Nuestra Historia"
-        description="HablemosCripto nació de la visión de democratizar el acceso a Bitcoin y las criptomonedas. Comenzamos como un grupo de entusiastas apasionados por la tecnología blockchain y nos hemos convertido en líderes en educación y minería de Bitcoin en América Latina."
-        year="2018"
+        description="HablemosCripto nació de la visión de democratizar el acceso a Bitcoin y las criptomonedas. Comenzamos como un grupo de entusiastas apasionados por la tecnología blockchain y nos hemos convertido en líderes en educación y minería de Bitcoin en América Latina y Europa."
+        year="2015"
       />
 
       <StorySection
@@ -49,7 +56,7 @@ export default function About() {
       <StorySection
         icon={<Eye className="w-16 h-16" />}
         title="Nuestra Visión"
-        description="Ser la plataforma educativa y de minería de Bitcoin más confiable de América Latina, reconocida por nuestra excelencia, transparencia y compromiso con el éxito de nuestros estudiantes y socios. Visualizamos un futuro donde Bitcoin es accesible para todos."
+        description="Ser la plataforma educativa y de minería de Bitcoin más confiable de América Latina y Europa, reconocida por nuestra excelencia, transparencia y compromiso con el éxito de nuestros estudiantes y socios. Visualizamos un futuro donde Bitcoin es accesible para todos."
       />
 
       <StorySection
@@ -60,14 +67,15 @@ export default function About() {
       />
 
       <TeamSection />
+      <TeamCarouselSection />
 
       {/* Stats Section */}
       <section className="py-20 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <StatCard number="5000+" label="Estudiantes" />
-            <StatCard number="Top 20" label="Mineros Globales" />
-            <StatCard number="2" label="Países Regulados" />
+            <StatCard number="55 000 +" label="Miembros mineros globales" />
+            <StatCard number="65 000 +" label="Equipos ASIC MINERIA" />
+            <StatCard number="230 millones" label="en Equipos de Minería" />
           </div>
         </div>
       </section>
@@ -92,10 +100,10 @@ export default function About() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ValueCard title="Transparencia" description="Operamos con total honestidad y claridad" />
-            <ValueCard title="Excelencia" description="Buscamos la calidad en todo lo que hacemos" />
-            <ValueCard title="Innovación" description="Adoptamos las últimas tecnologías" />
-            <ValueCard title="Comunidad" description="Construimos juntos el futuro" />
+            <ValueCard title="Transparencia" description="TRabajamos con filosofía Blockchain: No confíes, Verifica." />
+            <ValueCard title="Excelencia" description="Educamos y generamos desde EL EJEMPLO." />
+            <ValueCard title="Innovación" description="Adaptamos tecnología financiera que sea monetizable." />
+            <ValueCard title="Comunidad" description="Educar a miles de personas en este cambio financiero digital." />
           </div>
         </div>
       </section>
@@ -224,7 +232,7 @@ function TeamSection() {
               El equipo detrás de HablemosCripto
             </h2>
             <p className="text-lg leading-relaxed text-gray-300 max-w-xl">
-              Contamos con un equipo comprometido con la educación, la estrategia y el crecimiento dentro del ecosistema Bitcoin. Trabajamos para acompañar a nuestra comunidad con experiencia, cercanía y visión de largo plazo.
+              Contamos con un equipo comprometido con la educación, la estrategia y el crecimiento dentro del ecosistema Bitcoin. Trabajamos para acompañar a nuestra comunidad con experiencia, cercanía y visión de largo plazo. <strong>Educamos desde EL RESULTADO. </strong>
             </p>
           </motion.div>
 
@@ -256,6 +264,92 @@ function TeamSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function TeamCarouselSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+
+  useEffect(() => {
+    if (!carouselApi) {
+      return;
+    }
+
+    const autoSlide = window.setInterval(() => {
+      carouselApi.scrollNext();
+    }, 2800);
+
+    return () => window.clearInterval(autoSlide);
+  }, [carouselApi]);
+
+  return (
+    <section ref={ref} className="py-16 md:py-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#f7931a]/5 to-transparent" />
+
+      <div className="flex flex-col relative container mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="mb-8 md:mb-10"
+        >
+          <h3 className="text-center mt-4 text-3xl md:text-4xl font-bold text-white">
+            Conoce a nuestro equipo!
+          </h3>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="relative"
+        >
+          <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-r from-[#f7931a]/25 to-[#d4af37]/20 blur-2xl" />
+          <div className="relative w-full overflow-hidden rounded-[2rem] border border-[#f7931a]/30 bg-[radial-gradient(circle_at_top,rgba(247,147,26,0.16),transparent_45%),linear-gradient(135deg,#111_0%,#050505_100%)] px-6 pb-16 pt-7 md:px-8 md:pt-8">
+            <Carousel
+              setApi={setCarouselApi}
+              opts={{ align: 'start', loop: true }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {teamMembers.map((member) => (
+                  <CarouselItem key={member.id} className="basis-[84%] sm:basis-1/2 xl:basis-1/3">
+                    <TeamMemberCard name={member.name} role={member.role} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-3 top-auto bottom-4 -translate-y-0 border-[#f7931a]/40 bg-black/80 text-[#f7931a] hover:bg-[#f7931a]/10" />
+              <CarouselNext className="right-3 top-auto bottom-4 -translate-y-0 border-[#f7931a]/40 bg-black/80 text-[#f7931a] hover:bg-[#f7931a]/10" />
+            </Carousel>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+interface TeamMemberCardProps {
+  name: string;
+  role: string;
+}
+
+function TeamMemberCard({ name, role }: TeamMemberCardProps) {
+  return (
+    <article className="group h-full rounded-2xl border border-[#f7931a]/20 bg-black/45 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#f7931a]/55">
+      <div className="mb-4 flex aspect-[4/5] w-full items-center justify-center rounded-xl border border-dashed border-[#f7931a]/35 bg-gradient-to-br from-[#f7931a]/10 to-[#d4af37]/10">
+        <span className="text-xs font-semibold tracking-[0.35em] text-[#f7931a]/90">
+          PLACEHOLDER
+        </span>
+      </div>
+      <h4 className="text-lg font-semibold text-white">
+        {name}
+      </h4>
+      <p className="text-sm text-gray-400">
+        {role}
+      </p>
+    </article>
   );
 }
 

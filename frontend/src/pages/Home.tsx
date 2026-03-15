@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { Bitcoin } from '../components/icons/Bitcoin';
-import { Server, Shield, TrendingUp, Award, CheckCircle, ChevronDown, MessageCircle } from 'lucide-react';
+import { CurrencyBitcoinCircleIcon } from '../components/icons/CurrencyBitcoinCircleIcon';
+import { Shield, TrendingUp, Award, CheckCircle, ChevronDown, MessageCircle } from 'lucide-react';
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -120,27 +120,35 @@ export default function Home() {
 
       {/* What is Bitcoin Section */}
       <ScrollSection
-        icon={<Bitcoin className="w-16 h-16" />}
+        icon={<CurrencyBitcoinCircleIcon className="w-16 h-16" />}
         title="¿Qué es Bitcoin?"
-        description="Bitcoin es la primera criptomoneda descentralizada del mundo, creada en 2009. Es un sistema de dinero digital que opera sin necesidad de bancos o gobiernos centrales. Bitcoin permite transacciones peer-to-peer seguras y transparentes en todo el mundo."
+        description="Bitcoin es un nuevo tipo de dinero digital respaldado en blokchain, Opera desde 2009 de manera descentralizada (sin intermediarios) y permite hacer transacciones entre personas 24/7 a nivel mundial, en segundos y con costos muy bajos."
         features={[
           "Descentralizado y sin intermediarios",
           "Suministro limitado a 21 millones",
           "Transacciones seguras y transparentes",
-          "Activo digital global"
+          "Activo digital global",
+          "Gobiernos, Bancos y Fondos de inversión ya lo tienen y lo usan."
         ]}
       />
 
       {/* Bitcoin Mining Section */}
       <ScrollSection
-        icon={<Server className="w-16 h-16" />}
+        icon={
+          <img
+            src="/images/antminer.jpeg"
+            alt="Equipo Antminer para minería de Bitcoin"
+            className="h-80 w-80 md:h-96 md:w-96 rounded-full object-cover object-center shadow-[0_0_35px_rgba(247,147,26,0.35)]"
+          />
+        }
+        iconVariant="image"
         title="Minería de Bitcoin"
-        description="La minería de Bitcoin es el proceso mediante el cual se crean nuevos bitcoins y se verifican las transacciones en la red. Los mineros utilizan hardware especializado para resolver complejos problemas matemáticos que aseguran la red."
+        description="La minería de Bitcoin es el proceso mediante el cual se crean nuevos bitcoins y se verifican las transacciones en la red. Los mineros utilizan hardware especializado para resolver complejos problemas matemáticos que aseguran la red. Solo se podrán minar (encontrar) 21 millones de BTC."
         features={[
-          "Valida transacciones en la blockchain",
-          "Genera nuevos bitcoins como recompensa",
-          "Asegura la red descentralizada",
-          "Oportunidad de inversión rentable"
+          "Miles de mineros (Computadores ASIC) por todo el mundo aseguran la red de BTC.",
+          "Es la red computacional más grande del mundo.",
+          "La fuerza computacional Bitcoin se mide en Hashrate (Potencia).",
+          "Tener mineros de Bitcoin puede generar BTC si lo haces con profesionales."
         ]}
         reverse
       />
@@ -299,7 +307,7 @@ function FloatingBitcoins() {
             ease: "easeInOut"
           }}
         >
-          <Bitcoin className="w-8 h-8 md:w-12 md:h-12 text-[#f7931a] opacity-20" />
+          <CurrencyBitcoinCircleIcon className="w-8 h-8 md:w-12 md:h-12 opacity-20" />
         </motion.div>
       ))}
     </>
@@ -308,13 +316,14 @@ function FloatingBitcoins() {
 
 interface ScrollSectionProps {
   icon: React.ReactNode;
+  iconVariant?: 'default' | 'image';
   title: string;
   description: string;
   features: string[];
   reverse?: boolean;
 }
 
-function ScrollSection({ icon, title, description, features, reverse }: ScrollSectionProps) {
+function ScrollSection({ icon, iconVariant = 'default', title, description, features, reverse }: ScrollSectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
@@ -339,7 +348,7 @@ function ScrollSection({ icon, title, description, features, reverse }: ScrollSe
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 className="absolute inset-0 rounded-full bg-gradient-to-r from-[#f7931a]/20 to-[#d4af37]/20 blur-2xl scale-150"
               />
-              <div className="relative bg-gradient-to-br from-[#f7931a]/10 to-[#d4af37]/10 p-12 rounded-full border border-[#f7931a]/20">
+              <div className={`relative ${iconVariant === 'image' ? 'p-0 bg-transparent border-0' : 'bg-gradient-to-br from-[#f7931a]/10 to-[#d4af37]/10 p-12 rounded-full border border-[#f7931a]/20'}`}>
                 <div className="text-[#f7931a]">
                   {icon}
                 </div>

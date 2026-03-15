@@ -1,4 +1,24 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cripto-postgres
+    environment:
+      POSTGRES_DB: cripto_db
+      POSTGRES_USER: cripto_user
+      POSTGRES_PASSWORD: cripto_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cripto_user -d cripto_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+    networks:
+      - cripto-network
+
   backend:
     build:
       context: ./backend
@@ -8,8 +28,16 @@ services:
       - ./backend/.env
     ports:
       - "5000:5000"
+    environment:
+      FLASK_APP: app.py
+      DATABASE_URL: postgresql+psycopg2://cripto_user:cripto_password@postgres:5432/cripto_db
     volumes:
       - ./backend:/app
+    command: >
+      sh -c "flask db upgrade && flask seed-admin && python app.py"
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: always
     networks:
       - cripto-network
@@ -40,6 +68,9 @@ services:
       - backend
     networks:
       - cripto-network
+
+volumes:
+  postgres_data:
 networks:
   cripto-network:
     driver: bridge
