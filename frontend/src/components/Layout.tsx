@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 export function Layout() {
   const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/acceso-admin');
 
   // Scroll to top on route change
   useEffect(() => {
@@ -20,7 +21,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
-      <ScrollToTop />
+      {!isAdminRoute && <ScrollToTop />}
     </div>
   );
 }

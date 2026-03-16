@@ -7,10 +7,10 @@ export function Footer() {
 
   const quickLinks = [
     { name: 'Inicio', path: '/' },
+    { name: 'Noticias', path: '/blog' },
     { name: 'Servicios', path: '/services' },
     { name: 'Nosotros', path: '/about' },
     { name: 'Testimonios', path: '/testimonials' },
-    { name: 'Preguntas', path: '/faq' },
     { name: 'Contacto', path: '/contact' },
   ];
 

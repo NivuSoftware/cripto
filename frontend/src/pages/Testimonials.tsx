@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, HelpCircle, Quote, Star } from 'lucide-react';
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -50,6 +50,33 @@ export default function Testimonials() {
     }
   ];
 
+  const faqs = [
+    {
+      question: "¿Qué es Bitcoin?",
+      answer: "Bitcoin es la primera criptomoneda descentralizada del mundo, creada en 2009 por Satoshi Nakamoto. Es un sistema de dinero digital que opera sin necesidad de bancos centrales o intermediarios. Bitcoin utiliza tecnología blockchain para garantizar transacciones seguras, transparentes y verificables. Su suministro está limitado a 21 millones de unidades, lo que lo convierte en un activo escaso y valioso."
+    },
+    {
+      question: "¿Qué es minería de Bitcoin?",
+      answer: "La minería de Bitcoin es el proceso mediante el cual se verifican y registran nuevas transacciones en la blockchain. Los mineros utilizan hardware especializado para resolver complejos problemas matemáticos. Como recompensa por este trabajo, reciben nuevos bitcoins y comisiones de transacción. Es fundamental para mantener la seguridad y descentralización de la red Bitcoin."
+    },
+    {
+      question: "¿Cómo puedo empezar?",
+      answer: "Comenzar es muy sencillo. Primero, contáctanos por WhatsApp o a través de nuestro formulario de contacto. Evaluaremos tus objetivos y necesidades. Luego, te recomendaremos el curso o servicio más adecuado para ti. Si estás interesado en minería, te guiaremos en la selección de equipos y configuración. Ofrecemos acompañamiento completo desde el primer día."
+    },
+    {
+      question: "¿Necesito inversión inicial?",
+      answer: "Depende del servicio que elijas. Nuestros cursos educativos tienen costos accesibles con diferentes planes de pago. Para minería de Bitcoin, se requiere una inversión en hardware y electricidad, pero te ayudamos a calcular el retorno de inversión esperado. Ofrecemos diferentes opciones para que puedas comenzar según tu presupuesto. También proporcionamos asesoría financiera para maximizar tu inversión."
+    },
+    {
+      question: "¿Puedo aprender desde cero?",
+      answer: "¡Absolutamente! Nuestros cursos están diseñados específicamente para personas sin conocimientos previos en criptomonedas. Comenzamos con los conceptos básicos y avanzamos gradualmente. Utilizamos ejemplos prácticos y un lenguaje claro. Nuestros instructores tienen amplia experiencia enseñando a principiantes. Miles de estudiantes han comenzado desde cero y ahora operan exitosamente en el mundo cripto."
+    },
+    {
+      question: "¿Es seguro invertir en Bitcoin?",
+      answer: "Como cualquier inversión, Bitcoin tiene riesgos y oportunidades. Bitcoin ha demostrado ser resiliente durante más de una década. Nosotros te enseñamos cómo invertir de manera informada y segura, utilizando las mejores prácticas de seguridad. También cubrimos estrategias de gestión de riesgo y diversificación. La educación es clave para minimizar riesgos y maximizar oportunidades."
+    },
+  ];
+
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   };
@@ -75,11 +102,11 @@ export default function Testimonials() {
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
               <span className="bg-gradient-to-r from-[#f7931a] via-[#d4af37] to-[#ffeb3b] bg-clip-text text-transparent">
-                Testimonios
+                Testimonios y Preguntas
               </span>
             </h1>
             <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto">
-              Lo que dicen nuestros estudiantes y socios sobre HablemosCripto
+              Lo que dice nuestra comunidad y las respuestas clave para empezar con claridad.
             </p>
           </motion.div>
         </div>
@@ -173,23 +200,33 @@ export default function Testimonials() {
         </div>
       </section>
 
-      {/* All Testimonials Grid */}
+      {/* FAQ Section */}
       <section className="py-12 md:py-20 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-center text-white mb-12"
+            transition={{ duration: 0.6 }}
+            className="mx-auto mb-12 max-w-3xl text-center"
           >
-            Todos los Testimonios
-          </motion.h2>
+            <div className="mb-5 inline-flex items-center justify-center rounded-full border border-[#f7931a]/25 bg-[#f7931a]/10 p-4 text-[#f7931a]">
+              <HelpCircle className="h-8 w-8" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              Preguntas frecuentes
+            </h2>
+            <p className="mt-4 text-gray-300 text-lg">
+              Resolvemos las dudas más comunes sobre Bitcoin, minería y cómo comenzar con nosotros.
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard
-                key={index}
-                testimonial={testimonial}
+          <div className="max-w-4xl mx-auto space-y-4">
+            {faqs.map((faq, index) => (
+              <FAQItem
+                key={faq.question}
+                question={faq.question}
+                answer={faq.answer}
                 index={index}
               />
             ))}
@@ -228,55 +265,54 @@ export default function Testimonials() {
   );
 }
 
-interface TestimonialCardProps {
-  testimonial: {
-    name: string;
-    role: string;
-    image: string;
-    rating: number;
-    text: string;
-  };
+interface FAQItemProps {
+  question: string;
+  answer: string;
   index: number;
 }
 
-function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
+function FAQItem({ question, answer, index }: FAQItemProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -5 }}
-      className="bg-gradient-to-br from-[#0a0a0a] to-black border border-[#f7931a]/20 rounded-xl p-6 group hover:border-[#f7931a]/50 transition-all duration-300"
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className="group"
     >
-      {/* Profile */}
-      <div className="flex items-center gap-4 mb-4">
-        <img
-          src={testimonial.image}
-          alt={testimonial.name}
-          className="w-12 h-12 rounded-full object-cover border-2 border-[#f7931a]/30"
-        />
-        <div>
-          <h4 className="text-white font-semibold">
-            {testimonial.name}
-          </h4>
-          <p className="text-gray-400 text-sm">
-            {testimonial.role}
-          </p>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full rounded-xl border border-[#f7931a]/20 bg-gradient-to-br from-[#0a0a0a] to-black p-6 text-left transition-all duration-300 group hover:border-[#f7931a]/50"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <h3 className="text-lg md:text-xl font-semibold text-white group-hover:text-[#f7931a] transition-colors duration-300">
+            {question}
+          </h3>
+          <motion.div
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.25 }}
+            className="flex-shrink-0 text-[#f7931a]"
+          >
+            <ChevronDown className="w-6 h-6" />
+          </motion.div>
         </div>
-      </div>
+      </button>
 
-      {/* Rating */}
-      <div className="flex gap-1 mb-3">
-        {[...Array(testimonial.rating)].map((_, i) => (
-          <Star key={i} className="w-4 h-4 fill-[#f7931a] text-[#f7931a]" />
-        ))}
-      </div>
-
-      {/* Text */}
-      <p className="text-gray-300 text-sm leading-relaxed">
-        "{testimonial.text}"
-      </p>
+      <motion.div
+        initial={false}
+        animate={{
+          height: isOpen ? 'auto' : 0,
+          opacity: isOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.3 }}
+        className="overflow-hidden"
+      >
+        <div className="px-6 pb-6 pt-2">
+          <p className="text-gray-300 leading-relaxed">{answer}</p>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

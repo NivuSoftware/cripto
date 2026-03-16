@@ -7,6 +7,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/acceso-admin');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,8 +21,8 @@ export function Header() {
     { name: 'Inicio', path: '/' },
     { name: 'Servicios', path: '/services' },
     { name: 'Nosotros', path: '/about' },
+    { name: 'Noticias', path: '/blog' },
     { name: 'Testimonios', path: '/testimonials' },
-    { name: 'Preguntas', path: '/faq' },
     { name: 'Contacto', path: '/contact' },
   ];
 
@@ -72,13 +73,15 @@ export function Header() {
           </nav>
 
           {/* CTA Button - Desktop */}
-          <button
-            onClick={handleWhatsAppClick}
-            className="hidden lg:flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#f7931a] to-[#d4af37] text-black rounded-lg hover:shadow-[0_0_20px_rgba(247,147,26,0.5)] transition-all duration-300 hover:scale-105"
-          >
-            <MessageCircle className="w-4 h-4" />
-            WhatsApp
-          </button>
+          {!isAdminRoute && (
+            <button
+              onClick={handleWhatsAppClick}
+              className="hidden lg:flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#f7931a] to-[#d4af37] text-black rounded-lg hover:shadow-[0_0_20px_rgba(247,147,26,0.5)] transition-all duration-300 hover:scale-105"
+            >
+              <MessageCircle className="w-4 h-4" />
+              WhatsApp
+            </button>
+          )}
 
           {/* Mobile Menu Button */}
           <button
@@ -114,16 +117,18 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-              <button
-                onClick={() => {
-                  handleWhatsAppClick();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#f7931a] to-[#d4af37] text-black rounded-lg hover:shadow-[0_0_20px_rgba(247,147,26,0.5)] transition-all duration-300"
-              >
-                <MessageCircle className="w-4 h-4" />
-                WhatsApp
-              </button>
+              {!isAdminRoute && (
+                <button
+                  onClick={() => {
+                    handleWhatsAppClick();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#f7931a] to-[#d4af37] text-black rounded-lg hover:shadow-[0_0_20px_rgba(247,147,26,0.5)] transition-all duration-300"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp
+                </button>
+              )}
             </nav>
           </motion.div>
         )}
