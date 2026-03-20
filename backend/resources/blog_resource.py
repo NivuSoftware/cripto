@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from typing import Optional
 
 from flask import request
 from flask_smorest import Blueprint, abort
@@ -60,14 +61,14 @@ def _serialize_blog_post(post: BlogPost, include_content: bool = True) -> dict:
     return payload
 
 
-def _validate_slug_uniqueness(slug: str, current_post_id: int | None = None) -> None:
+def _validate_slug_uniqueness(slug: str, current_post_id: Optional[int] = None) -> None:
     existing = BlogPost.query.filter_by(slug=slug).first()
 
     if existing and existing.id != current_post_id:
         abort(400, message="Ya existe un post con ese slug")
 
 
-def _normalize_post_payload(data: dict, current_post: BlogPost | None = None) -> dict:
+def _normalize_post_payload(data: dict, current_post: Optional[BlogPost] = None) -> dict:
     title = data["title"].strip()
     slug = _slugify(data["slug"])
 

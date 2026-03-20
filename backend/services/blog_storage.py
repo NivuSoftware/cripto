@@ -1,6 +1,7 @@
 import shutil
 import uuid
 from pathlib import Path
+from typing import Optional
 from urllib.parse import urlparse
 
 from flask import current_app
@@ -98,7 +99,7 @@ def save_content_image(post_id: int, file: FileStorage) -> str:
     return _public_path_from_absolute_path(target_path)
 
 
-def delete_public_file(public_path: str | None) -> None:
+def delete_public_file(public_path: Optional[str]) -> None:
     if not public_path or not public_path.startswith("/uploads/"):
         return
 
@@ -165,7 +166,7 @@ def cleanup_unused_content_images(post_id: int, referenced_paths: set[str]) -> N
             file_path.unlink()
 
 
-def path_exists(public_path: str | None) -> bool:
+def path_exists(public_path: Optional[str]) -> bool:
     if not public_path or not public_path.startswith("/uploads/"):
         return False
 
@@ -181,7 +182,7 @@ def cover_image_belongs_to_post(post_id: int, public_path: str) -> bool:
     return public_path.startswith(f"/uploads/blog/{post_id}/cover/")
 
 
-def normalize_upload_path(path: str) -> str | None:
+def normalize_upload_path(path: str) -> Optional[str]:
     if path.startswith("/uploads/"):
         return path
 

@@ -1,11 +1,15 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { CurrencyBitcoinCircleIcon } from '../components/icons/CurrencyBitcoinCircleIcon';
-import { Shield, TrendingUp, Award, CheckCircle, ChevronDown, MessageCircle } from 'lucide-react';
+import { Shield, TrendingUp, Award, CheckCircle, ChevronDown, MessageCircle, CalendarDays, ChevronRight } from 'lucide-react';
+import { blogPublicService } from '../services/blogPublicService';
+import type { BlogPost } from '../types/blog';
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
+  const [isNewsLoading, setIsNewsLoading] = useState(true);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
@@ -25,6 +29,19 @@ export default function Home() {
   const curtainTopY = useTransform(benefitsProgress, [0.08, 0.42], ['0%', '-102%']);
   const curtainBottomY = useTransform(benefitsProgress, [0.08, 0.42], ['0%', '102%']);
   const benefitsVeilOpacity = useTransform(benefitsProgress, [0.08, 0.4, 0.92], [0.9, 0.35, 0.86]);
+
+  useEffect(() => {
+    const loadRecentPosts = async () => {
+      try {
+        const response = await blogPublicService.list();
+        setRecentPosts(response.items.slice(0, 3));
+      } finally {
+        setIsNewsLoading(false);
+      }
+    };
+
+    void loadRecentPosts();
+  }, []);
 
   return (
     <div className="min-h-screen bg-black">
@@ -152,6 +169,73 @@ export default function Home() {
         ]}
         reverse
       />
+
+      {/* Recent News Section */}
+      <section className="relative overflow-hidden bg-black py-20 md:py-24">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0b0b0b] to-black" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(247,147,26,0.12),transparent_45%)]" />
+        </div>
+
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
+          >
+            <div className="max-w-2xl">
+              <p className="mb-4 text-xs uppercase tracking-[0.35em] text-[#f7931a]">Noticias recientes</p>
+              <h2 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+                Lo último del blog y el mercado
+              </h2>
+              <p className="mt-4 text-lg text-gray-300">
+                Revisa las publicaciones más recientes sobre Bitcoin, minería y actualidad cripto.
+              </p>
+            </div>
+
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-2 self-start rounded-lg border border-[#f7931a]/40 px-6 py-3 font-semibold text-[#f7b45f] transition hover:border-[#f7931a] hover:bg-[#f7931a]/10"
+            >
+              Ver más
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+          </motion.div>
+
+          {isNewsLoading ? (
+            <div className="grid gap-6 md:grid-cols-3">
+              {[0, 1, 2].map((item) => (
+                <div
+                  key={item}
+                  className="overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.03]"
+                >
+                  <div className="aspect-[4/3] animate-pulse bg-white/5" />
+                  <div className="space-y-4 p-6">
+                    <div className="h-4 w-32 animate-pulse rounded bg-white/5" />
+                    <div className="h-7 w-4/5 animate-pulse rounded bg-white/5" />
+                    <div className="h-16 animate-pulse rounded bg-white/5" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : recentPosts.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-3">
+              {recentPosts.map((post, index) => (
+                <RecentNewsCard key={post.id} post={post} index={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-[28px] border border-white/10 bg-white/[0.03] px-6 py-14 text-center">
+              <h3 className="text-2xl font-semibold text-white">Aún no hay noticias publicadas</h3>
+              <p className="mt-3 text-gray-400">
+                La sección se actualizará en cuanto publiquemos nuevas entradas en el blog.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Benefits Section */}
       <section ref={benefitsRef} className="relative z-20 min-h-[130vh] overflow-hidden bg-black">
@@ -311,6 +395,60 @@ function FloatingBitcoins() {
         </motion.div>
       ))}
     </>
+  );
+}
+
+interface RecentNewsCardProps {
+  post: BlogPost;
+  index: number;
+}
+
+function RecentNewsCard({ post, index }: RecentNewsCardProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.55, delay: index * 0.12 }}
+    >
+      <Link
+        to={`/blog/${post.slug}`}
+        className="group block overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] transition hover:border-[#f7931a]/35 hover:shadow-[0_0_40px_rgba(247,147,26,0.08)]"
+      >
+        <div className="aspect-[4/3] overflow-hidden bg-black">
+          {post.cover_image_url ? (
+            <img
+              src={post.cover_image_url}
+              alt={post.title}
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(247,147,26,0.18),transparent_55%)] px-6 text-center text-xs uppercase tracking-[0.3em] text-gray-500">
+              Noticias HablemosCripto
+            </div>
+          )}
+        </div>
+
+        <div className="p-6">
+          <div className="mb-4 flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-[#f7931a]">
+            <CalendarDays className="h-4 w-4" />
+            {post.published_at ? new Date(post.published_at).toLocaleDateString() : 'Próximamente'}
+          </div>
+
+          <h3 className="text-2xl font-semibold text-white transition group-hover:text-[#f7b45f]">
+            {post.title}
+          </h3>
+          <p className="mt-4 line-clamp-3 text-sm leading-6 text-gray-300">
+            {post.excerpt || 'Lee esta publicación para conocer más detalles del mercado y de Bitcoin.'}
+          </p>
+
+          <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#f7b45f]">
+            Leer noticia
+            <ChevronRight className="h-4 w-4 transition group-hover:translate-x-1" />
+          </div>
+        </div>
+      </Link>
+    </motion.div>
   );
 }
 

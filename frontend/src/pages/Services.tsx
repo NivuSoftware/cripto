@@ -7,18 +7,18 @@ export default function Services() {
     {
       icon: <GraduationCap className="w-12 h-12" />,
       title: "Educación en Bitcoin",
-      description: "Aprende todo sobre Bitcoin desde cero. Nuestros cursos están diseñados para personas sin conocimientos previos en criptomonedas.",
+      description: "Estamos comprometidos en crear la comunidad más grande hispanoparlante que entienda los fundamentos de Bitcoin y la minería BTC.",
       features: [
         "Conceptos fundamentales de Bitcoin",
-        "Seguridad y wallets",
-        "Estrategias de inversión",
-        "Análisis de mercado"
+        "Presente y futuro de las criptomonedas",
+        "Regulación de activos digitales",
+        "Oportunidades que ofrecen las criptomonedas"
       ]
     },
     {
       icon: <Pickaxe className="w-12 h-12" />,
       title: "Minería de Bitcoin",
-      description: "Comienza a minar Bitcoin con equipos de última generación. Te guiamos en cada paso del proceso de minería.",
+      description: "La manera más sencilla de tener Bitcoin es con la minería, tenemos un servicio SaaS (Cloud mining) que hace 'fácil obtener' Bitcoin todos los días.",
       features: [
         "Hardware especializado",
         "Configuración y mantenimiento",
