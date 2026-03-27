@@ -34,7 +34,7 @@ export function Footer() {
             <Link to="/" className="inline-flex items-center group">
               <img
                 src="/images/logo.png"
-                alt="HablemosCripto"
+                alt="¡Hablemos Cripto!"
                 className="h-10 sm:h-11 md:h-12 w-auto object-contain"
               />
             </Link>
@@ -98,7 +98,7 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-[#f7931a]/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-500 text-sm text-center md:text-left">
-              © {currentYear} HablemosCripto. Todos los derechos reservados.
+              © {currentYear} ¡Hablemos Cripto!. Todos los derechos reservados.
             </p>
             <div className="flex items-center gap-2 text-gray-500 text-sm">
               <span>Powered by</span>

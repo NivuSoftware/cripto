@@ -83,7 +83,7 @@ export default function Home() {
             >
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">
                 <span className="bg-gradient-to-r from-[#f7931a] via-[#d4af37] to-[#ffeb3b] bg-clip-text text-transparent">
-                  HablemosCripto
+                  ¡Hablemos Cripto!
                 </span>
                 <br />
                 <span className="text-white">y minemos Bitcoin</span>
@@ -276,18 +276,21 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <BenefitCard
                 icon={<Shield className="w-12 h-12" />}
+                imageSrc="/images/img1.jpeg"
                 title="Regulación en Estados Unidos"
                 description="Operamos bajo regulación estadounidense para minería de Bitcoin"
                 delay={0.2}
               />
               <BenefitCard
                 icon={<Award className="w-12 h-12" />}
+                imageSrc="/images/img2.jpeg"
                 title="Regulación El Salvador"
                 description="Regulación por el Banco Central de El Salvador"
                 delay={0.4}
               />
               <BenefitCard
                 icon={<TrendingUp className="w-12 h-12" />}
+                imageSrc="/images/img3.jpeg"
                 title="Top 20 Global"
                 description="Entre los 20 principales mineros del mundo validados por Blockchain"
                 delay={0.6}
@@ -424,7 +427,7 @@ function RecentNewsCard({ post, index }: RecentNewsCardProps) {
             />
           ) : (
             <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,rgba(247,147,26,0.18),transparent_55%)] px-6 text-center text-xs uppercase tracking-[0.3em] text-gray-500">
-              Noticias HablemosCripto
+              Noticias ¡Hablemos Cripto!
             </div>
           )}
         </div>
@@ -530,12 +533,13 @@ function ScrollSection({ icon, iconVariant = 'default', title, description, feat
 
 interface BenefitCardProps {
   icon: React.ReactNode;
+  imageSrc: string;
   title: string;
   description: string;
   delay: number;
 }
 
-function BenefitCard({ icon, title, description, delay }: BenefitCardProps) {
+function BenefitCard({ icon, imageSrc, title, description, delay }: BenefitCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -543,25 +547,35 @@ function BenefitCard({ icon, title, description, delay }: BenefitCardProps) {
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay }}
       whileHover={{ y: -10 }}
-      className="group relative bg-black/55 backdrop-blur-md border border-white/15 rounded-xl p-8 hover:border-[#f7931a]/55 transition-all duration-300"
+      className="group relative h-full overflow-hidden rounded-2xl border border-white/15 bg-black/65 backdrop-blur-md transition-all duration-300 hover:border-[#f7931a]/55"
     >
-      {/* Glow Effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#f7931a]/0 to-[#d4af37]/0 group-hover:from-[#f7931a]/5 group-hover:to-[#d4af37]/5 rounded-xl transition-all duration-300" />
-      
-      <div className="relative space-y-4">
-        <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-[#f7931a]/10 to-[#d4af37]/10 flex items-center justify-center text-[#f7931a] group-hover:scale-110 transition-transform duration-300">
-          {icon}
-        </div>
-        <h3 className="text-xl font-semibold text-white">
-          {title}
-        </h3>
-        <p className="text-gray-400 leading-relaxed">
-          {description}
-        </p>
-      </div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(247,147,26,0.14),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_35%)] opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[#f7931a]/40 to-transparent" />
 
-      {/* Corner Accent */}
-      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-[#f7931a]/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="relative flex h-full flex-col p-7">
+        <div className="space-y-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-[#f7931a]/15 to-[#d4af37]/10 text-[#f7931a] ring-1 ring-[#f7931a]/15 transition-transform duration-300 group-hover:scale-110">
+            {icon}
+          </div>
+          <h3 className="text-xl font-semibold text-white">
+            {title}
+          </h3>
+          <p className="text-gray-400 leading-relaxed">
+            {description}
+          </p>
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-3 shadow-[0_20px_50px_rgba(0,0,0,0.35)]">
+          <div className="relative overflow-hidden rounded-xl">
+            <img
+              src={imageSrc}
+              alt={title}
+              className="h-60 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/10" />
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 }

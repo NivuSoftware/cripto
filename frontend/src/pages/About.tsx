@@ -3,11 +3,38 @@ import { useEffect, useRef, useState } from 'react';
 import { Target, Eye, Heart, Users } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from '../components/ui/carousel';
 
-const teamMembers = Array.from({ length: 15 }, (_, index) => ({
-  id: index + 1,
-  name: `Nombre Falso ${String(index + 1).padStart(2, '0')}`,
-  role: 'Cargo Placeholder',
-}));
+const teamMembers = [
+  {
+    id: 1,
+    name: 'Diego C Jacome',
+    image: '/images/diego.png',
+  },
+  {
+    id: 2,
+    name: 'Jacqueline Betancourt',
+    image: '/images/jaqui.png',
+  },
+  {
+    id: 3,
+    name: 'Jordi Cornellà',
+    image: '/images/jordi.png',
+  },
+  {
+    id: 4,
+    name: 'Jéssica Calderón',
+    image: '/images/jess.png',
+  },
+  {
+    id: 5,
+    name: 'Peter Hash',
+    image: '/images/peter.png',
+  },
+  {
+    id: 6,
+    name: 'Albert Castaño',
+    image: '/images/albertt.png',
+  },
+];
 
 export default function About() {
   return (
@@ -42,7 +69,7 @@ export default function About() {
       <StorySection
         icon={<Users className="w-16 h-16" />}
         title="Nuestra Historia"
-        description="HablemosCripto nació de la visión de democratizar el acceso a Bitcoin y las criptomonedas. Comenzamos como un grupo de entusiastas apasionados por la tecnología blockchain y nos hemos convertido en líderes en educación y minería de Bitcoin en América Latina y Europa."
+        description="¡Hablemos Cripto! nació de la visión de democratizar el acceso a Bitcoin y las criptomonedas. Comenzamos como un grupo de entusiastas apasionados por la tecnología blockchain y nos hemos convertido en líderes en educación y minería de Bitcoin en América Latina y Europa."
         year="2015"
       />
 
@@ -229,7 +256,7 @@ function TeamSection() {
               TEAM
             </span>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
-              El equipo detrás de HablemosCripto
+              El equipo detrás de ¡Hablemos Cripto!
             </h2>
             <p className="text-lg leading-relaxed text-gray-300 max-w-xl">
               Contamos con un equipo comprometido con la educación, la estrategia y el crecimiento dentro del ecosistema Bitcoin. Trabajamos para acompañar a nuestra comunidad con experiencia, cercanía y visión de largo plazo. <strong>Educamos desde EL RESULTADO. </strong>
@@ -316,7 +343,7 @@ function TeamCarouselSection() {
               <CarouselContent>
                 {teamMembers.map((member) => (
                   <CarouselItem key={member.id} className="basis-[84%] sm:basis-1/2 xl:basis-1/3">
-                    <TeamMemberCard name={member.name} role={member.role} />
+                    <TeamMemberCard name={member.name} image={member.image} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -332,23 +359,23 @@ function TeamCarouselSection() {
 
 interface TeamMemberCardProps {
   name: string;
-  role: string;
+  image: string;
 }
 
-function TeamMemberCard({ name, role }: TeamMemberCardProps) {
+function TeamMemberCard({ name, image }: TeamMemberCardProps) {
   return (
     <article className="group h-full rounded-2xl border border-[#f7931a]/20 bg-black/45 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-[#f7931a]/55">
-      <div className="mb-4 flex aspect-[4/5] w-full items-center justify-center rounded-xl border border-dashed border-[#f7931a]/35 bg-gradient-to-br from-[#f7931a]/10 to-[#d4af37]/10">
-        <span className="text-xs font-semibold tracking-[0.35em] text-[#f7931a]/90">
-          PLACEHOLDER
-        </span>
+      <div className="mb-4 aspect-[4/5] w-full overflow-hidden rounded-xl border border-[#f7931a]/25 bg-gradient-to-br from-[#f7931a]/10 to-[#d4af37]/10">
+        <img
+          src={image}
+          alt={name}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
       </div>
       <h4 className="text-lg font-semibold text-white">
         {name}
       </h4>
-      <p className="text-sm text-gray-400">
-        {role}
-      </p>
     </article>
   );
 }

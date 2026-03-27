@@ -45,7 +45,7 @@ export function Header() {
           <Link to="/" className="flex h-full items-center group py-2">
             <img
               src="/images/logo.png"
-              alt="HablemosCripto"
+              alt="¡Hablemos Cripto!"
               className="h-9 sm:h-10 md:h-12 lg:h-14 w-auto object-contain"
             />
           </Link>

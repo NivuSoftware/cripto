@@ -57,7 +57,7 @@ export default function AdminLogin() {
           <div className="mb-8 flex flex-col items-center text-center">
             <img
               src="/images/logo.png"
-              alt="HablemosCripto"
+              alt="¡Hablemos Cripto!"
               className="mb-5 h-14 w-auto object-contain"
             />
             <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#f7931a]/25 bg-[#f7931a]/10 text-[#f7931a]">

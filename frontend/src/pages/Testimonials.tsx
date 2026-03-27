@@ -11,7 +11,7 @@ export default function Testimonials() {
       role: "Emprendedora",
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
       rating: 5,
-      text: "HablemosCripto cambió mi vida. Ahora comprendo Bitcoin y estoy generando ingresos pasivos con la minería. El equipo es increíblemente profesional y siempre dispuesto a ayudar."
+      text: "¡Hablemos Cripto! cambió mi vida. Ahora comprendo Bitcoin y estoy generando ingresos pasivos con la minería. El equipo es increíblemente profesional y siempre dispuesto a ayudar."
     },
     {
       name: "Carlos Ramírez",
@@ -25,14 +25,14 @@ export default function Testimonials() {
       role: "Profesional en Tecnología",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
       rating: 5,
-      text: "La minería de Bitcoin con HablemosCripto ha superado mis expectativas. El retorno de inversión ha sido excelente y el soporte técnico es de primera clase."
+      text: "La minería de Bitcoin con ¡Hablemos Cripto! ha superado mis expectativas. El retorno de inversión ha sido excelente y el soporte técnico es de primera clase."
     },
     {
       name: "Luis Fernández",
       role: "Empresario",
       image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
       rating: 5,
-      text: "Excelente plataforma educativa. Los instructores conocen profundamente el tema y te guían paso a paso. Recomiendo HablemosCripto al 100%."
+      text: "Excelente plataforma educativa. Los instructores conocen profundamente el tema y te guían paso a paso. Recomiendo ¡Hablemos Cripto! al 100%."
     },
     {
       name: "Sandra López",
@@ -46,7 +46,7 @@ export default function Testimonials() {
       role: "Trader",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
       rating: 5,
-      text: "La comunidad de HablemosCripto es increíble. Siempre hay alguien dispuesto a ayudar y compartir conocimientos. Una experiencia educativa de primer nivel."
+      text: "La comunidad de ¡Hablemos Cripto! es increíble. Siempre hay alguien dispuesto a ayudar y compartir conocimientos. Una experiencia educativa de primer nivel."
     }
   ];
 
