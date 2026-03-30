@@ -1,34 +1,96 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Mail, MessageCircle, Facebook, Send, MapPin, Phone } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { MessageCircle, Facebook, Instagram, Send, Phone, Youtube } from 'lucide-react';
+import { contactService } from '../services/contactService';
+
+type SubmitState = 'idle' | 'success' | 'error';
+
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M19.59 6.69A4.83 4.83 0 0 1 15.86 3h-3.1v12.4a2.67 2.67 0 1 1-2.67-2.67c.23 0 .45.03.67.08V9.67a5.8 5.8 0 0 0-.67-.04A5.78 5.78 0 1 0 15.86 15V8.72a7.9 7.9 0 0 0 4.6 1.47V7.15c-.29 0-.58-.15-.87-.46Z" />
+    </svg>
+  );
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     nombre: '',
+    telefono: '',
     email: '',
     mensaje: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [submitState, setSubmitState] = useState<SubmitState>('idle');
+
+  const socialLinks: Array<{
+    name: string;
+    href: string;
+    icon: LucideIcon | typeof TikTokIcon;
+  }> = [
+    {
+      name: 'Facebook',
+      href: 'https://www.facebook.com/dcjacome/',
+      icon: Facebook,
+    },
+    {
+      name: 'Instagram',
+      href: 'https://www.instagram.com/dvjacome/',
+      icon: Instagram,
+    },
+    {
+      name: 'TikTok',
+      href: 'https://vm.tiktok.com/ZS98JrYVLj4N1-OMwWb/',
+      icon: TikTokIcon,
+    },
+    {
+      name: 'YouTube',
+      href: 'https://www.youtube.com/@hablemoscripto2025',
+      icon: Youtube,
+    },
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setSubmitMessage('¡Gracias por tu mensaje! Te contactaremos pronto.');
-      setFormData({ nombre: '', email: '', mensaje: '' });
-      setIsSubmitting(false);
-      
+
+    try {
+      const response = await contactService.send(formData);
+
+      setSubmitState('success');
+      setSubmitMessage(response.message || '¡Gracias por tu mensaje! Te contactaremos pronto.');
+      setFormData({ nombre: '', telefono: '', email: '', mensaje: '' });
+
       setTimeout(() => {
         setSubmitMessage('');
+        setSubmitState('idle');
       }, 5000);
-    }, 1000);
+    } catch (error) {
+      setSubmitState('error');
+      setSubmitMessage(
+        error instanceof Error
+          ? error.message
+          : 'No pudimos enviar tu mensaje en este momento. Inténtalo nuevamente.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (submitMessage) {
+      setSubmitMessage('');
+      setSubmitState('idle');
+    }
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -111,6 +173,22 @@ export default function Contact() {
                 </div>
 
                 <div>
+                  <label htmlFor="telefono" className="block text-gray-300 mb-2">
+                    Teléfono
+                  </label>
+                  <input
+                    type="tel"
+                    id="telefono"
+                    name="telefono"
+                    value={formData.telefono}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#f7931a]/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#f7931a] transition-colors"
+                    placeholder="+593 987 472 745"
+                  />
+                </div>
+
+                <div>
                   <label htmlFor="mensaje" className="block text-gray-300 mb-2">
                     Mensaje
                   </label>
@@ -145,7 +223,11 @@ export default function Contact() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="p-4 bg-[#f7931a]/10 border border-[#f7931a]/30 rounded-lg text-[#f7931a] text-center"
+                    className={`rounded-lg border p-4 text-center ${
+                      submitState === 'error'
+                        ? 'border-red-500/30 bg-red-500/10 text-red-200'
+                        : 'border-[#f7931a]/30 bg-[#f7931a]/10 text-[#f7b45f]'
+                    }`}
                   >
                     {submitMessage}
                   </motion.div>
@@ -189,24 +271,12 @@ export default function Contact() {
                 />
 
                 <ContactItem
-                  icon={<MessageCircle className="w-6 h-6" />}
-                  title="WhatsApp"
-                  content="(+593) 987472745"
-                  href="https://wa.me/593987472745"
-                />
-
-                <ContactItem
                   icon={<Facebook className="w-6 h-6" />}
                   title="Facebook"
                   content="dcjacome"
-                  href="https://www.facebook.com/dcjacome"
+                  href="https://www.facebook.com/dcjacome/"
                 />
 
-                <ContactItem
-                  icon={<MapPin className="w-6 h-6" />}
-                  title="Ubicación"
-                  content="Ecuador"
-                />
               </div>
 
               {/* Social Media */}
@@ -215,14 +285,18 @@ export default function Contact() {
                   Síguenos en redes
                 </h3>
                 <div className="flex gap-4">
-                  <a
-                    href="https://www.facebook.com/dcjacome"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-lg bg-[#f7931a]/10 border border-[#f7931a]/20 flex items-center justify-center text-[#f7931a] hover:bg-[#f7931a] hover:text-black transition-all duration-300 hover:scale-110 hover:shadow-[0_0_20px_rgba(247,147,26,0.3)]"
-                  >
-                    <Facebook className="w-6 h-6" />
-                  </a>
+                  {socialLinks.map(({ name, href, icon: Icon }) => (
+                    <a
+                      key={name}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={name}
+                      className="w-12 h-12 rounded-lg bg-[#f7931a]/10 border border-[#f7931a]/20 flex items-center justify-center text-[#f7931a] hover:bg-[#f7931a] hover:text-black transition-all duration-300 hover:scale-110 hover:shadow-[0_0_20px_rgba(247,147,26,0.3)]"
+                    >
+                      <Icon className="w-6 h-6" />
+                    </a>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -230,27 +304,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Map or Additional Info */}
-      <section className="py-12 md:py-20 relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-gradient-to-br from-[#0a0a0a] to-black border border-[#f7931a]/20 rounded-2xl p-8 md:p-12 text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Horario de Atención
-            </h2>
-            <div className="max-w-md mx-auto space-y-3 text-gray-300">
-              <p>Lunes a Viernes: 9:00 AM - 6:00 PM</p>
-              <p>Sábados: 10:00 AM - 2:00 PM</p>
-              <p>WhatsApp disponible 24/7</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      
     </div>
   );
 }

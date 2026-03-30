@@ -1,6 +1,20 @@
 import { Link } from 'react-router-dom';
-import { Facebook, MessageCircle } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { Facebook, Instagram, MessageCircle, Youtube } from 'lucide-react';
 import { Bitcoin } from './icons/Bitcoin';
+
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M19.59 6.69A4.83 4.83 0 0 1 15.86 3h-3.1v12.4a2.67 2.67 0 1 1-2.67-2.67c.23 0 .45.03.67.08V9.67a5.8 5.8 0 0 0-.67-.04A5.78 5.78 0 1 0 15.86 15V8.72a7.9 7.9 0 0 0 4.6 1.47V7.15c-.29 0-.58-.15-.87-.46Z" />
+    </svg>
+  );
+}
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -12,6 +26,33 @@ export function Footer() {
     { name: 'Nosotros', path: '/about' },
     { name: 'Testimonios', path: '/testimonials' },
     { name: 'Contacto', path: '/contact' },
+  ];
+
+  const socialLinks: Array<{
+    name: string;
+    href: string;
+    icon: LucideIcon | typeof TikTokIcon;
+  }> = [
+    {
+      name: 'Facebook',
+      href: 'https://www.facebook.com/dcjacome/',
+      icon: Facebook,
+    },
+    {
+      name: 'Instagram',
+      href: 'https://www.instagram.com/dvjacome/',
+      icon: Instagram,
+    },
+    {
+      name: 'TikTok',
+      href: 'https://vm.tiktok.com/ZS98JrYVLj4N1-OMwWb/',
+      icon: TikTokIcon,
+    },
+    {
+      name: 'YouTube',
+      href: 'https://www.youtube.com/@hablemoscripto2025',
+      icon: Youtube,
+    },
   ];
 
   return (
@@ -82,14 +123,18 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold text-[#f7931a] mb-4">Síguenos</h3>
             <div className="flex gap-3">
-              <a
-                href="https://www.facebook.com/dcjacome"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-[#f7931a]/10 border border-[#f7931a]/20 flex items-center justify-center text-[#f7931a] hover:bg-[#f7931a] hover:text-black transition-all duration-300 hover:scale-110 hover:shadow-[0_0_20px_rgba(247,147,26,0.3)]"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
+              {socialLinks.map(({ name, href, icon: Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  className="w-10 h-10 rounded-lg bg-[#f7931a]/10 border border-[#f7931a]/20 flex items-center justify-center text-[#f7931a] hover:bg-[#f7931a] hover:text-black transition-all duration-300 hover:scale-110 hover:shadow-[0_0_20px_rgba(247,147,26,0.3)]"
+                >
+                  <Icon className="w-5 h-5" />
+                </a>
+              ))}
             </div>
           </div>
         </div>
@@ -105,6 +150,26 @@ export function Footer() {
               <Bitcoin className="w-4 h-4 text-[#f7931a] animate-pulse" />
               <span className="text-[#f7931a]">Bitcoin</span>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-6 border-t border-white/5 pt-6">
+          <div className="flex justify-center">
+            <a
+              href="https://www.nivusoftware.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-3 py-2 text-center text-gray-400 transition-colors duration-300 hover:text-white"
+            >
+              <img
+                src="/images/logo_nube.png"
+                alt="Nivusoftware"
+                className="h-5 w-auto object-contain"
+              />
+              <span className="text-sm sm:text-base">
+                Desarrollado por <span className="font-semibold text-white">Nivusoftware</span>
+              </span>
+            </a>
           </div>
         </div>
       </div>

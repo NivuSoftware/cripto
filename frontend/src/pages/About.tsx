@@ -245,7 +245,7 @@ function TeamSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#f7931a]/5 to-transparent" />
 
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div className="grid grid-cols-1 gap-10 items-center lg:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] xl:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)]">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -270,22 +270,12 @@ function TeamSection() {
             className="relative"
           >
             <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-r from-[#f7931a]/25 to-[#d4af37]/20 blur-2xl" />
-            <div className="relative flex h-[320px] w-full items-center justify-center overflow-hidden rounded-[2rem] border border-dashed border-[#f7931a]/30 bg-[radial-gradient(circle_at_top,rgba(247,147,26,0.18),transparent_45%),linear-gradient(135deg,#111_0%,#050505_100%)] md:h-[420px]">
-              <div className="absolute inset-0 opacity-30" style={{
-                backgroundImage: `
-                  linear-gradient(rgba(247, 147, 26, 0.08) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(247, 147, 26, 0.08) 1px, transparent 1px)
-                `,
-                backgroundSize: '36px 36px'
-              }} />
-              <div className="relative text-center">
-                <div className="mb-3 text-sm font-semibold tracking-[0.4em] text-[#f7931a]/80">
-                  TEAM PHOTO
-                </div>
-                <div className="text-base text-gray-400">
-                  Placeholder para imagen del equipo
-                </div>
-              </div>
+            <div className="relative h-[320px] w-full overflow-hidden rounded-[2rem] border border-[#f7931a]/30 bg-[radial-gradient(circle_at_top,rgba(247,147,26,0.18),transparent_45%),linear-gradient(135deg,#111_0%,#050505_100%)] md:h-[420px]">
+              <img
+                src="/images/team.jpeg"
+                alt="Equipo de Hablemos Cripto"
+                className="h-full w-full object-cover"
+              />
             </div>
           </motion.div>
         </div>
