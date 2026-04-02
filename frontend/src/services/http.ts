@@ -19,6 +19,12 @@ export function resolveAssetUrl(path: string | null) {
     return path;
   }
 
+  // Si la API_BASE_URL es relativa (producción, mismo dominio via Nginx),
+  // el path ya es accesible directamente desde el origen actual
+  if (API_BASE_URL.startsWith('/')) {
+    return path;
+  }
+
   const apiUrl = new URL(API_BASE_URL);
   return `${apiUrl.origin}${path}`;
 }
