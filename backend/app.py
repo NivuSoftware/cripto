@@ -58,7 +58,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = _resolve_database_url()
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Configuración de Swagger
-app.config["API_TITLE"] = "VidaBuena API"
+app.config["API_TITLE"] = "Hablemos Cripto API"
 app.config["API_VERSION"] = "v1"
 app.config["OPENAPI_VERSION"] = "3.0.3"
 app.config["OPENAPI_URL_PREFIX"] = "/"
@@ -88,4 +88,5 @@ def seed_admin() -> None:
     print(seed_admin_user())
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    debug = os.getenv("FLASK_DEBUG", "false").lower() == "true"
+    app.run(debug=debug, host="0.0.0.0", port=5000)
