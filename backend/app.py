@@ -1,5 +1,6 @@
 from datetime import timedelta
 from pathlib import Path
+from urllib.parse import urlparse, urlunparse
 
 from flask import Flask, send_from_directory
 from flask_cors import CORS
@@ -15,6 +16,33 @@ import os
 
 load_dotenv()  # Cargar variables desde .env
 
+
+def _running_inside_docker() -> bool:
+    return Path("/.dockerenv").exists()
+
+
+def _resolve_database_url() -> str:
+    database_url = os.getenv("DATABASE_URL", "sqlite:///app.db")
+    parsed_url = urlparse(database_url)
+
+    if parsed_url.hostname != "postgres" or _running_inside_docker():
+        return database_url
+
+    host_port = parsed_url.netloc.rsplit("@", 1)[-1]
+    if host_port == "postgres":
+        normalized_host_port = "localhost"
+    elif host_port.startswith("postgres:"):
+        normalized_host_port = f"localhost:{host_port.split(':', 1)[1]}"
+    else:
+        return database_url
+
+    credentials = ""
+    if "@" in parsed_url.netloc:
+        credentials = f"{parsed_url.netloc.rsplit('@', 1)[0]}@"
+
+    return urlunparse(parsed_url._replace(netloc=f"{credentials}{normalized_host_port}"))
+
+
 app = Flask(__name__)
 frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
 
@@ -26,7 +54,7 @@ app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE", "false"
 
 CORS(app, supports_credentials=True, origins=[frontend_origin])
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///app.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = _resolve_database_url()
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Configuración de Swagger

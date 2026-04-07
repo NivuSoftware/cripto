@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { ChevronDown, ChevronLeft, ChevronRight, HelpCircle, Quote, Star } from 'lucide-react';
+import { PageSeo } from '../components/PageSeo';
+import { absoluteUrl, createBreadcrumbSchema } from '../lib/site';
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -87,6 +89,46 @@ export default function Testimonials() {
 
   return (
     <div className="min-h-screen bg-black pt-24 pb-16">
+      <PageSeo
+        title="Testimonios y preguntas frecuentes sobre Bitcoin"
+        description="Conoce testimonios de la comunidad y resuelve dudas frecuentes sobre Bitcoin, minería de Bitcoin, inversión, formación y cómo empezar."
+        path="/testimonials"
+        keywords={[
+          'testimonios bitcoin',
+          'preguntas frecuentes bitcoin',
+          'faq mineria de bitcoin',
+          'comunidad cripto',
+          'aprender bitcoin',
+        ]}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: 'Testimonios y preguntas frecuentes | ¡Hablemos Cripto!',
+            description:
+              'Testimonios de usuarios y respuestas a preguntas frecuentes sobre Bitcoin y minería.',
+            url: absoluteUrl('/testimonials'),
+            inLanguage: 'es',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.map((faq) => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: faq.answer,
+              },
+            })),
+          },
+          createBreadcrumbSchema([
+            { name: 'Inicio', path: '/' },
+            { name: 'Testimonios', path: '/testimonials' },
+          ]),
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0">

@@ -1,5 +1,6 @@
 import { FilePenLine, LogOut, Newspaper } from 'lucide-react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { PageSeo } from '../PageSeo';
 import { useAdminAuth } from '../../lib/adminAuth';
 
 export function AdminShell() {
@@ -13,6 +14,12 @@ export function AdminShell() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
+      <PageSeo
+        title="Panel editorial"
+        description="Área privada para administrar el blog."
+        path="/admin"
+        noindex
+      />
       <img
         src="/images/reveal.jpg"
         alt=""

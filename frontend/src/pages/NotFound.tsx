@@ -1,10 +1,17 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Home, ArrowLeft } from 'lucide-react';
+import { PageSeo } from '../components/PageSeo';
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-black pt-24 pb-16 flex items-center justify-center">
+      <PageSeo
+        title="Página no encontrada"
+        description="La página solicitada no existe."
+        path="/404"
+        noindex
+      />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

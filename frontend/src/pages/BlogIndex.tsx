@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarDays, ChevronRight } from 'lucide-react';
+import { PageSeo } from '../components/PageSeo';
+import { absoluteUrl, createBreadcrumbSchema } from '../lib/site';
 import { blogPublicService } from '../services/blogPublicService';
 import type { BlogPost } from '../types/blog';
 
@@ -23,6 +25,49 @@ export default function BlogIndex() {
 
   return (
     <div className="min-h-screen bg-black pb-16 pt-24 text-white">
+      <PageSeo
+        title="Blog de Bitcoin, minería y noticias cripto"
+        description="Lee artículos sobre Bitcoin, minería de Bitcoin, educación cripto y análisis del mercado para mejorar tu criterio y mantenerte al día."
+        path="/blog"
+        keywords={[
+          'blog bitcoin',
+          'noticias bitcoin',
+          'mineria de bitcoin',
+          'analisis cripto',
+          'educacion cripto',
+        ]}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: 'Blog | ¡Hablemos Cripto!',
+            description:
+              'Colección de artículos sobre Bitcoin, minería de Bitcoin, educación cripto y noticias del mercado.',
+            url: absoluteUrl('/blog'),
+            inLanguage: 'es',
+          },
+          ...(posts.length > 0
+            ? [
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'ItemList',
+                  name: 'Artículos del blog',
+                  itemListElement: posts.map((post, index) => ({
+                    '@type': 'ListItem',
+                    position: index + 1,
+                    url: absoluteUrl(`/blog/${post.slug}`),
+                    name: post.title,
+                  })),
+                } as Record<string, unknown>,
+              ]
+            : []),
+          createBreadcrumbSchema([
+            { name: 'Inicio', path: '/' },
+            { name: 'Blog', path: '/blog' },
+          ]),
+        ]}
+      />
+
       <section className="relative overflow-hidden py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-b from-[#f7931a]/10 via-transparent to-transparent" />
 
@@ -30,7 +75,7 @@ export default function BlogIndex() {
           <div className="mx-auto max-w-3xl text-center">
             <p className="mb-4 text-xs uppercase tracking-[0.35em] text-[#f7931a]">Blog</p>
             <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl">
-              Noticias, educacion y analisis de Bitcoin
+              Noticias, educación y análisis de Bitcoin
             </h1>
             <p className="mt-6 text-lg text-gray-300">
               Publicaciones recientes del equipo para compartir ideas, novedades y oportunidades del ecosistema.
@@ -46,8 +91,8 @@ export default function BlogIndex() {
           </div>
         ) : posts.length === 0 ? (
           <div className="rounded-[32px] border border-white/10 bg-white/5 px-6 py-16 text-center">
-            <h2 className="text-2xl font-semibold text-white">Aun no hay publicaciones</h2>
-            <p className="mt-3 text-gray-400">El blog estara disponible en cuanto publiquemos el primer post.</p>
+            <h2 className="text-2xl font-semibold text-white">Aún no hay publicaciones</h2>
+            <p className="mt-3 text-gray-400">El blog estará disponible en cuanto publiquemos el primer post.</p>
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -85,7 +130,7 @@ export default function BlogIndex() {
                   </p>
 
                   <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#f7b45f]">
-                    Leer articulo
+                    Leer artículo
                     <ChevronRight className="h-4 w-4 transition group-hover:translate-x-1" />
                   </div>
                 </div>

@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { MessageCircle, Facebook, Instagram, Send, Phone, Youtube } from 'lucide-react';
+import { PageSeo } from '../components/PageSeo';
+import { absoluteUrl, createBreadcrumbSchema } from '../lib/site';
 import { contactService } from '../services/contactService';
 
 type SubmitState = 'idle' | 'success' | 'error';
@@ -99,6 +101,49 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-black pt-24 pb-16">
+      <PageSeo
+        title="Contacto para asesoría en Bitcoin y minería"
+        description="Habla con ¡Hablemos Cripto! para recibir asesoría sobre Bitcoin, minería de Bitcoin, formación cripto y oportunidades dentro del ecosistema digital."
+        path="/contact"
+        keywords={[
+          'contacto bitcoin',
+          'asesoria bitcoin',
+          'consultoria mineria bitcoin',
+          'whatsapp bitcoin ecuador',
+          'contacto cripto',
+        ]}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ContactPage',
+            name: 'Contacto | ¡Hablemos Cripto!',
+            description:
+              'Canales de contacto para solicitar información y asesoría sobre Bitcoin, minería y educación cripto.',
+            url: absoluteUrl('/contact'),
+            inLanguage: 'es',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: '¡Hablemos Cripto!',
+            url: absoluteUrl('/'),
+            contactPoint: [
+              {
+                '@type': 'ContactPoint',
+                telephone: '+593987472745',
+                contactType: 'customer support',
+                availableLanguage: ['es', 'en'],
+                areaServed: ['EC', 'ES', 'LATAM'],
+              },
+            ],
+          },
+          createBreadcrumbSchema([
+            { name: 'Inicio', path: '/' },
+            { name: 'Contacto', path: '/contact' },
+          ]),
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0">

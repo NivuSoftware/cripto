@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { LockKeyhole, ShieldCheck } from 'lucide-react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { PageSeo } from '../components/PageSeo';
 import { useAdminAuth } from '../lib/adminAuth';
 
 export default function AdminLogin() {
@@ -39,6 +40,12 @@ export default function AdminLogin() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
+      <PageSeo
+        title="Acceso administrativo"
+        description="Panel privado de administración."
+        path="/acceso-admin"
+        noindex
+      />
       <img
         src="/images/reveal.jpg"
         alt=""

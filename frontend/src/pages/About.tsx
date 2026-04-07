@@ -1,6 +1,8 @@
 import { motion, useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Target, Eye, Heart, Users } from 'lucide-react';
+import { PageSeo } from '../components/PageSeo';
+import { absoluteUrl, createBreadcrumbSchema } from '../lib/site';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from '../components/ui/carousel';
 
 const teamMembers = [
@@ -39,6 +41,34 @@ const teamMembers = [
 export default function About() {
   return (
     <div className="min-h-screen bg-black pt-24 pb-16">
+      <PageSeo
+        title="Sobre nosotros y nuestra experiencia en Bitcoin"
+        description="Conoce al equipo de ¡Hablemos Cripto!, nuestra misión, visión y experiencia en educación cripto y minería de Bitcoin para la comunidad hispanohablante."
+        path="/about"
+        keywords={[
+          'equipo bitcoin',
+          'sobre hablemos cripto',
+          'educacion cripto',
+          'mineria de bitcoin',
+          'comunidad bitcoin',
+        ]}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'AboutPage',
+            name: 'Sobre nosotros | ¡Hablemos Cripto!',
+            description:
+              'Historia, misión, visión y equipo de una comunidad enfocada en Bitcoin, minería y educación cripto.',
+            url: absoluteUrl('/about'),
+            inLanguage: 'es',
+          },
+          createBreadcrumbSchema([
+            { name: 'Inicio', path: '/' },
+            { name: 'Sobre nosotros', path: '/about' },
+          ]),
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0">

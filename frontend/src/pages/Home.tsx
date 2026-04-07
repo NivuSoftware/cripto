@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { CurrencyBitcoinCircleIcon } from '../components/icons/CurrencyBitcoinCircleIcon';
 import { Shield, TrendingUp, Award, CheckCircle, ChevronDown, MessageCircle, CalendarDays, ChevronRight } from 'lucide-react';
+import { PageSeo } from '../components/PageSeo';
+import { SOCIAL_PROFILES, absoluteUrl, createBreadcrumbSchema } from '../lib/site';
 import { blogPublicService } from '../services/blogPublicService';
 import type { BlogPost } from '../types/blog';
 
@@ -45,6 +47,50 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black">
+      <PageSeo
+        title="Bitcoin, minería de Bitcoin y educación cripto"
+        description="Aprende sobre Bitcoin, criptomonedas y minería de Bitcoin con asesoría personalizada, formación práctica y actualidad del mercado cripto para Ecuador y Latinoamérica."
+        path="/"
+        keywords={[
+          'bitcoin',
+          'mineria de bitcoin',
+          'educacion bitcoin',
+          'criptomonedas',
+          'bitcoin ecuador',
+          'mineria bitcoin ecuador',
+          'asesoria cripto',
+        ]}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: 'Inicio | ¡Hablemos Cripto!',
+            description:
+              'Portal de educación sobre Bitcoin, criptomonedas y minería de Bitcoin con enfoque práctico.',
+            url: absoluteUrl('/'),
+            inLanguage: 'es',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ProfessionalService',
+            name: '¡Hablemos Cripto!',
+            url: absoluteUrl('/'),
+            image: absoluteUrl('/images/logo.png'),
+            description:
+              'Asesoría y formación en Bitcoin, criptomonedas y minería de Bitcoin para personas y negocios.',
+            areaServed: ['Ecuador', 'Latinoamérica', 'Europa'],
+            serviceType: [
+              'Educación en Bitcoin',
+              'Asesoría en minería de Bitcoin',
+              'Capacitaciones sobre criptomonedas',
+            ],
+            telephone: '+593987472745',
+            sameAs: SOCIAL_PROFILES,
+          },
+          createBreadcrumbSchema([{ name: 'Inicio', path: '/' }]),
+        ]}
+      />
+
       {/* Hero Section with Parallax */}
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         {/* Layer 1: Dark Tech Background */}
@@ -90,7 +136,7 @@ export default function Home() {
               </h1>
               
               <p className="text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto">
-                Educación en activos digitales y minería de Bitcoin.
+                Educación en Bitcoin, activos digitales y minería de Bitcoin con acompañamiento práctico.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
@@ -139,13 +185,13 @@ export default function Home() {
       <ScrollSection
         icon={<CurrencyBitcoinCircleIcon className="w-16 h-16" />}
         title="¿Qué es Bitcoin?"
-        description="Bitcoin es un nuevo tipo de dinero digital respaldado en blokchain, Opera desde 2009 de manera descentralizada (sin intermediarios) y permite hacer transacciones entre personas 24/7 a nivel mundial, en segundos y con costos muy bajos."
+        description="Bitcoin es un nuevo tipo de dinero digital respaldado en blockchain. Opera desde 2009 de manera descentralizada, sin intermediarios, y permite hacer transacciones entre personas 24/7 a nivel mundial, en segundos y con costos muy bajos."
         features={[
           "Descentralizado y sin intermediarios",
           "Suministro limitado a 21 millones",
           "Transacciones seguras y transparentes",
           "Activo digital global",
-          "Gobiernos, Bancos y Fondos de inversión ya lo tienen y lo usan."
+          "Gobiernos, bancos y fondos de inversión ya lo tienen y lo usan."
         ]}
       />
 

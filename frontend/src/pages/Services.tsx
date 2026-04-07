@@ -1,6 +1,8 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { GraduationCap, Pickaxe, BookOpen, Newspaper } from 'lucide-react';
+import { PageSeo } from '../components/PageSeo';
+import { absoluteUrl, createBreadcrumbSchema } from '../lib/site';
 
 export default function Services() {
   const services = [
@@ -53,6 +55,46 @@ export default function Services() {
 
   return (
     <div className="min-h-screen bg-black pt-24 pb-16">
+      <PageSeo
+        title="Servicios de Bitcoin, minería y educación cripto"
+        description="Descubre nuestros servicios de educación en Bitcoin, minería de Bitcoin, capacitaciones cripto y noticias del mercado para avanzar con claridad en el ecosistema."
+        path="/services"
+        keywords={[
+          'servicios bitcoin',
+          'mineria de bitcoin',
+          'curso bitcoin',
+          'asesoria cripto',
+          'capacitacion bitcoin',
+          'cloud mining bitcoin',
+        ]}
+        schema={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: 'Servicios | ¡Hablemos Cripto!',
+            description:
+              'Página de servicios sobre educación en Bitcoin, minería, capacitaciones y actualidad del mercado cripto.',
+            url: absoluteUrl('/services'),
+            inLanguage: 'es',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Servicios de ¡Hablemos Cripto!',
+            itemListElement: services.map((service, index) => ({
+              '@type': 'ListItem',
+              position: index + 1,
+              name: service.title,
+              description: service.description,
+            })),
+          },
+          createBreadcrumbSchema([
+            { name: 'Inicio', path: '/' },
+            { name: 'Servicios', path: '/services' },
+          ]),
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0">
@@ -78,7 +120,7 @@ export default function Services() {
               </span>
             </h1>
             <p className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto">
-              Soluciones completas para tu entrada al mundo de Bitcoin y las criptomonedas
+              Soluciones completas para entrar con criterio al mundo de Bitcoin, la minería de Bitcoin y las criptomonedas
             </p>
           </motion.div>
         </div>
