@@ -5,6 +5,7 @@ from urllib.parse import urlparse, urlunparse
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 from flask_smorest import Api
+from werkzeug.middleware.proxy_fix import ProxyFix
 from resources.admin_auth_resource import admin_auth_bp
 from resources.blog_resource import blog_bp
 from resources.mail_resource import mail_bp
@@ -44,6 +45,7 @@ def _resolve_database_url() -> str:
 
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change-this-secret-key")
