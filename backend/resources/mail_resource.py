@@ -16,7 +16,7 @@ EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
 MAIL_SENDER = os.getenv("MAIL_SENDER", EMAIL_ADDRESS)
-MAIL_RECIPIENT = os.getenv("MAIL_RECIPIENT", "haylandsebastian5@gmail.com")
+MAIL_RECIPIENT = os.getenv("MAIL_RECIPIENT", "")
 BRAND_NAME = "¡Hablemos Cripto!"
 BRAND_TAGLINE = "Educacion en activos digitales y mineria de Bitcoin"
 
